@@ -262,7 +262,7 @@ int main()
         else if (tecla=='*') {
             printf("Saindo do modo de execução e habilitando o modo de gravação\n");
             modo_gravacao();
-        }else if(tecla=='2'){
+        }else if(tecla=='0'){
             printf(" R.M.C.F.C");
             animacao_letras(pio,sm);
         }else{
