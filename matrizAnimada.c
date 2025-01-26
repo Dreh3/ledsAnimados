@@ -16,6 +16,8 @@
 #include "frame_numbers.h"
 #include "frame_1.h"
 #include "frame_heart.h"
+#include "frame_wesley.h"
+
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
