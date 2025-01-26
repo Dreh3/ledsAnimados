@@ -10,6 +10,12 @@
 //arquivo .pio
 #include "pio_matrix.pio.h"
 
+#include"frame_2.h"
+#include "frame_boat.h"
+#include "frame_pulser.h"
+#include "frame_numbers.h"
+#include "frame_1.h"
+
 #define NUM_PIXELS 25
 #define OUT_PIN 7
 
@@ -34,19 +40,6 @@ const uint button;
 #define INTENSIDADE_MEDIA 0.8
 #define INTENSIDADE_BAIXA 0.5
 #define INTENSIDADE_MINIMA 0.2
-
-// Definição de tipo da estrutura que irá controlar a cor dos LED's
-typedef struct {
-    double red;
-    double green;
-    double blue;
-}Led_config;
-
-typedef Led_config RGB_cod;
-
-// Definição de tipo da matriz de leds
-typedef Led_config Matriz_leds_config[5][5];
-
 
 
 //Função para inicializar pinos do teclado
@@ -98,114 +91,6 @@ char keypad_leitura(){
   return '\0';
 }
 
-//função para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
-{
-  unsigned char R, G, B;
-  R = r * 255;
-  G = g * 255;
-  B = b * 255;
-  return (G << 24) | (R << 16) | (B << 8);
-}
-
-//acionar a matrix de leds - ws2812b
-void controlar_leds(PIO pio, uint sm, uint32_t cor)
-{
-  for (int16_t i = 0; i < NUM_PIXELS; i++) {
-    pio_sm_put_blocking(pio, sm, cor);
-  }
-}
-
-void imprimir_desenho(Matriz_leds_config configuracao, PIO pio, uint sm){
-    for (int contadorLinha = 4; contadorLinha >= 0; contadorLinha--){
-        if(contadorLinha % 2){
-            for (int contadorColuna = 0; contadorColuna < 5; contadorColuna ++){
-                uint32_t valor_cor_binario = matrix_rgb(
-                    configuracao[contadorLinha][contadorColuna].blue,
-                    configuracao[contadorLinha][contadorColuna].red,
-                    configuracao[contadorLinha][contadorColuna].green
-                );
-
-                pio_sm_put_blocking(pio, sm, valor_cor_binario);
-            }
-        }else{
-            for (int contadorColuna = 4; contadorColuna >= 0; contadorColuna --){
-                uint32_t valor_cor_binario = matrix_rgb(
-                    configuracao[contadorLinha][contadorColuna].blue,
-                    configuracao[contadorLinha][contadorColuna].red,
-                    configuracao[contadorLinha][contadorColuna].green
-                );
-
-                pio_sm_put_blocking(pio, sm, valor_cor_binario);
-            }
-        }
-    }
-}
-
-RGB_cod obter_cor_por_parametro_RGB(int red, int green, int blue){
-    RGB_cod cor_customizada = {red/255.0,green/255.0,blue/255.0};
-
-    return cor_customizada;
-}
-
-void animacao_letras(PIO pio, uint sm) {
-    // Sequência de frames para R, M, F, C
-    Matriz_leds_config frames[] = {
-        // Letra R
-{
-   {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 0
-   {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 1
-   {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 2
-   {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 3
-   {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}  // Linha 4
-},
-// Letra M
-{
-    {{0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}}, // Linha 0
-    {{0.0, 1.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 1.0, 0.0}}, // Linha 1
-    {{0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}}, // Linha 2
-    {{0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}}, // Linha 3
-    {{0.0, 1.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 1.0, 0.0}}  // Linha 4
-},
-// Letra Coração
-{
-    {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 0
-    {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 1
-    {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 2
-    {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 3
-    {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}  // Linha 4
-},
-// Letra F
-{
-    {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 0
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 1
-    {{1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 2
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 3
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}  // Linha 4
-},
-// Letra C
-{
-    {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}, // Linha 0
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 1
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 2
-    {{1.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, // Linha 3
-    {{0.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}, {1.0, 0.0, 0.0}}  // Linha 4
-},
-
-        
-    };
-
-    // Exibe os quadros de forma sequencial
-    for (int i = 0; i < 5; i++) {
-        imprimir_desenho(frames[i], pio, sm);
-        sleep_ms(1000);  // Pausa entre cada quadro da animação
-    }
-}
-
-void modo_gravacao()
-{
-    reset_usb_boot(0,0); //modo de gravação
-}
 
 int main()
 {
@@ -221,8 +106,16 @@ int main()
     init_teclado();
     stdio_init_all();
 
-    printf("Iniciando o controle dos LEDs\n");
-
+    printf("           CONTROLE DOS LEDs                                                ANIMAÇÕES PERSONALIZADAS \n");
+    printf("                         \n");
+    printf("A - Desliga todos os LEDs acesos;                                     0 - Luiz;\n");
+    printf("B - Liga todos os LEDs da cor azul;                                   1 - Andressa;\n");
+    printf("C - Liga todos os LEDs da cor vermelha;                               2 - Matheus;\n");
+    printf("D - Liga todos os LEDs da cor verde;                                  3 - Ana Karolina;\n");          
+    printf("# - Liga todos os LEDs da cor branca;                                 4 - Lucas;\n");    
+    printf("* - Sai do modo de execução e habilita o de gravação;                 5 - Wesley;\n");       
+    printf("                                                                      6 - Gabriel.\n");   
+               
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
@@ -233,7 +126,7 @@ int main()
             tecla=keypad_leitura();
             sleep_ms(200);
         }
-        printf("Tecla %c",tecla);
+        printf("Tecla %c pressionada!\n",tecla);
         if (tecla=='A') {
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
@@ -260,12 +153,51 @@ int main()
             printf("Ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
-            printf("Saindo do modo de execução e habilitando o modo de gravação\n");
+            printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
-        }else if(tecla=='0'){
-            printf(" Animação Luiz");
+        }
+        else if(tecla=='0'){
+            frame_numbers(0,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Luiz Rodrigo...\n\n");
             animacao_letras(pio,sm);
-        }else{
+        }
+        else if(tecla=='1') {
+            frame_numbers(1,pio,sm);
+            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            animacaoletraA(pio, sm);
+        }
+        else if(tecla=='2') {
+            frame_numbers(2,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Matheus Santos Souza (");
+            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X)\n\n");
+            frame_2(pio,sm);
+        }
+        else if(tecla=='3') {
+            frame_numbers(3,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
+            frame_boat(pio, sm);
+        }
+        else if(tecla=='4') {
+            frame_numbers(4,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
+            frame_pulser(pio, sm);
+        }
+        else if(tecla=='5'){
+            frame_numbers(5,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Wesley...\n\n");
+        }
+        else if(tecla=='6'){
+            frame_numbers(6,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Gabriel Vitor...\n\n");
+        }
+        else{
             printf("%c",tecla);
         }
         tecla='\0';
