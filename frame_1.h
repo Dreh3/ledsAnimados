@@ -20,15 +20,15 @@ typedef struct {
     double red;
     double green;
     double blue;
-}Led_config;
+}Led_config1;
 
-typedef Led_config RGB_cod;
+typedef Led_config1 RGB_cod1;
 
 // Definição de tipo da matriz de leds
-typedef Led_config Matriz_leds_config[5][5];
+typedef Led_config1 Matriz_leds_config1[5][5];
 
 //função para definição da intensidade de cores do led
-uint32_t matrix_rgb(double b, double r, double g)
+uint32_t matrixRGB(double b, double r, double g)
 {
   unsigned char R, G, B;
   R = r * 255;
@@ -37,7 +37,7 @@ uint32_t matrix_rgb(double b, double r, double g)
   return (G << 24) | (R << 16) | (B << 8);
 }
 
-void imprimir_desenho(Matriz_leds_config configuracao, PIO pio, uint sm){
+void imprimir_desenho(Matriz_leds_config1 configuracao, PIO pio, uint sm){
     for (int contadorLinha = 4; contadorLinha >= 0; contadorLinha--){
         if(contadorLinha % 2){
             for (int contadorColuna = 0; contadorColuna < 5; contadorColuna ++){
@@ -63,8 +63,8 @@ void imprimir_desenho(Matriz_leds_config configuracao, PIO pio, uint sm){
     }
 }
 
-RGB_cod obter_cor_por_parametro_RGB(int red, int green, int blue){
-    RGB_cod cor_customizada = {red/255.0,green/255.0,blue/255.0};
+RGB_cod1 cor_parametro (double red, double green, double blue){
+    RGB_cod1 cor_customizada = {red/255.0,green/255.0,blue/255.0};
 
     return cor_customizada;
 }
@@ -74,31 +74,31 @@ void animacaoletraA(PIO pio, uint sm){
     //Definição de cores usadas na intensidade adeuquada para a placa
 
         /*
-        RGB_cod cinza = obter_cor_por_parametro_RGB(5.25,5.25,5.25);
-        RGB_cod branco = obter_cor_por_parametro_RGB(6.2,6.2,6.375);
-        RGB_cod verde_opaco = obter_cor_por_parametro_RGB(0,5,0);
-        RGB_cod marrom = obter_cor_por_parametro_RGB(9.375,4.6875,0);
-        RGB_cod marrom_claro = obter_cor_por_parametro_RGB(4.6875,2.34375,0);
-        RGB_cod azul_claro = obter_cor_por_parametro_RGB(0.0,0.0,2);
-        RGB_cod azul_int = obter_cor_por_parametro_RGB(0.0,0.0,0.1);
-        RGB_cod red_int = obter_cor_por_parametro_RGB(0.0,0.0,0.1);
-        RGB_cod green_int = obter_cor_por_parametro_RGB(0.0,0.0,0.1);
+        RGB_cod1 cinza = cor_parametro(5.25,5.25,5.25);
+        RGB_cod1 branco = cor_parametro(6.2,6.2,6.375);
+        RGB_cod1 verde_opaco = cor_parametro(0,5,0);
+        RGB_cod1 marrom = cor_parametro(9.375,4.6875,0);
+        RGB_cod1 marrom_claro = cor_parametro(4.6875,2.34375,0);
+        RGB_cod1 azul_claro = cor_parametro(0.0,0.0,2);
+        RGB_cod1 azul_int = cor_parametro(0.0,0.0,0.1);
+        RGB_cod1 red_int = cor_parametro(0.0,0.0,0.1);
+        RGB_cod1 green_int = cor_parametro(0.0,0.0,0.1);
         */
 
     //Definição de cores usadas na intensidade adequada para o simulador
-    RGB_cod cinza = obter_cor_por_parametro_RGB(128,128,128);
-    RGB_cod branco = obter_cor_por_parametro_RGB(255,255,255);
-    RGB_cod verde_opaco = obter_cor_por_parametro_RGB(0,100,0); //antes 5
-    RGB_cod marrom = obter_cor_por_parametro_RGB(150,75,0);
-    RGB_cod marrom_claro = obter_cor_por_parametro_RGB(63,38,0);
-    RGB_cod azul_claro = obter_cor_por_parametro_RGB(18,10,143);
-    RGB_cod azul_int = obter_cor_por_parametro_RGB(0.0,0.0,255);
-    RGB_cod red_int = obter_cor_por_parametro_RGB(255,0.0,0);
-    RGB_cod green_int = obter_cor_por_parametro_RGB(0.0,255,0.0);
+    RGB_cod1 cinza = cor_parametro(128,128,128);
+    RGB_cod1 branco = cor_parametro(255,255,255);
+    RGB_cod1 verde_opaco = cor_parametro(0,100,0); //antes 5
+    RGB_cod1 marrom = cor_parametro(150,75,0);
+    RGB_cod1 marrom_claro = cor_parametro(63,38,0);
+    RGB_cod1 azul_claro = cor_parametro(18,10,143);
+    RGB_cod1 azul_int = cor_parametro(0.0,0.0,255);
+    RGB_cod1 red_int = cor_parametro(255,0.0,0);
+    RGB_cod1 green_int = cor_parametro(0.0,255,0.0);
 
 
     //Matriz com todos os frames da animação em ordem
-    Matriz_leds_config frames[] ={
+    Matriz_leds_config1 frames[] ={
         //frame 0 leds dispersos modelo A
         {{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, red_int, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, green_int, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, red_int, red_int, green_int, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, azul_int, azul_int, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}},
         //frame 1 leds dispersos modelo B
@@ -173,7 +173,7 @@ void animacaoletraA(PIO pio, uint sm){
         {{marrom,{0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, marrom}, {{0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}},{{0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}}, {{0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}},{marrom, {0.0,0.0,0.0}, {0.0,0.0,0.0}, {0.0,0.0,0.0}, marrom}}
     };
     //matriz para limpar leds
-    Matriz_leds_config limpar = {
+    Matriz_leds_config1 limpar = {
         //  apagar leds
         {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}
     };
