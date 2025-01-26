@@ -12,6 +12,8 @@
 
 #include"frame_2.h"
 #include "frame_boat.h"
+#include "frame_pulser.h"
+#include "frame_numbers.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -106,11 +108,11 @@ int main()
     printf("           CONTROLE DOS LEDs                                                ANIMAÇÕES PERSONALIZADAS \n");
     printf("                         \n");
     printf("A - Desliga todos os LEDs acesos;                                     0 - Luiz;\n");
-    printf("B - Liga todos os LEDs da cor azul;                                   1 - Wesley;\n");
+    printf("B - Liga todos os LEDs da cor azul;                                   1 - Andressa;\n");
     printf("C - Liga todos os LEDs da cor vermelha;                               2 - Matheus;\n");
     printf("D - Liga todos os LEDs da cor verde;                                  3 - Ana Karolina;\n");          
-    printf("# - Liga todos os LEDs da cor branca;                                 4 - Andressa;\n");    //a partir daqui a ordem muda por ordem de commit
-    printf("* - Sai do modo de execução e habilita o de gravação;                 5 - Lucas;\n");       //essa foi só p organizar
+    printf("# - Liga todos os LEDs da cor branca;                                 4 - Lucas;\n");    
+    printf("* - Sai do modo de execução e habilita o de gravação;                 5 - Wesley;\n");       
     printf("                                                                      6 - Gabriel.\n");   
                
     uint offset = pio_add_program(pio, &pio_matrix_program);
@@ -123,42 +125,77 @@ int main()
             tecla=keypad_leitura();
             sleep_ms(200);
         }
-        printf("Tecla %c está: ",tecla);
+        printf("Tecla %c pressionada!\n",tecla);
         if (tecla=='A') {
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
-            printf("desligando todos os LEDs\n");
+            printf("Desligando todos os LEDs\n");
         }
         else if (tecla=='B') {
             cor = matrix_rgb(INTENSIDADE_ALTA, 0.0, 0.0); // Azul
             controlar_leds(pio, sm, cor);
-            printf("ligando todos os LEDs na cor azul\n");
+            printf("Ligando todos os LEDs na cor azul\n");
         }
         else if (tecla=='C') {
             cor = matrix_rgb(0.0, INTENSIDADE_MEDIA, 0.0); // Vermelho
             controlar_leds(pio, sm, cor);
-            printf("ligando todos os LEDs na cor vermelha\n");
+            printf("Ligando todos os LEDs na cor vermelha\n");
         }
         else if (tecla=='D') {
             cor = matrix_rgb(0.0, 0.0, INTENSIDADE_BAIXA); // Verde
             controlar_leds(pio, sm, cor);
-            printf("ligando todos os LEDs na cor verde\n");
+            printf("Ligando todos os LEDs na cor verde\n");
         }
         else if (tecla=='#') {
             cor = matrix_rgb(INTENSIDADE_MINIMA, INTENSIDADE_MINIMA, INTENSIDADE_MINIMA); // Branco
             controlar_leds(pio, sm, cor);
-            printf("ligando todos os LEDs na cor branca\n");
+            printf("Ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
-            printf("saindo do modo de execução e habilitando o modo de gravação\n");
+            printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
-        }else if(tecla=='2'){
-            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X\n");
+        }
+        else if(tecla=='0'){
+            frame_numbers(0,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Luiz Rodrigo...\n\n");
+        }
+        else if(tecla=='1') {
+            frame_numbers(1,pio,sm);
+            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            frame_1(pio, sm);
+        }
+        else if(tecla=='2') {
+            frame_numbers(2,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Matheus Santos Souza (");
+            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X)\n\n");
             frame_2(pio,sm);
-        }else if(tecla=='3'){
-            printf("apresentando a animação de Ana Karolina Disigant");
+        }
+        else if(tecla=='3') {
+            frame_numbers(3,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
             frame_boat(pio, sm);
-        }else{
+        }
+        else if(tecla=='4') {
+            frame_numbers(4,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
+            frame_pulser(pio, sm);
+        }
+        else if(tecla=='5'){
+            frame_numbers(5,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Wesley...\n\n");
+        }
+        else if(tecla=='6'){
+            frame_numbers(6,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Gabriel Vitor...\n\n");
+        }
+        else{
             printf("%c",tecla);
         }
         tecla='\0';
