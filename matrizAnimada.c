@@ -160,6 +160,7 @@ int main()
             frame_numbers(0,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Luiz Rodrigo...\n\n");
+            animacao_letras(pio,sm);
         }
         else if(tecla=='1') {
             frame_numbers(1,pio,sm);
