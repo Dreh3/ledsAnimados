@@ -14,6 +14,7 @@
 #include "frame_boat.h"
 #include "frame_pulser.h"
 #include "frame_numbers.h"
+#include "frame_1.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7

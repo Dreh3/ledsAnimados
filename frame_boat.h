@@ -67,7 +67,6 @@ void print_boat(Matriz_config configuracao, PIO pio, uint sm){
     }
 }
 
-// Função para definir as cores para a flor
 RGB RGB_parameter(int red, int green, int blue){
     RGB cor_customizada = {red/255.0, green/255.0, blue/255.0};
     return cor_customizada;
