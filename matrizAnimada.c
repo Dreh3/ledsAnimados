@@ -156,8 +156,9 @@ int main()
             modo_gravacao();
         }else if(tecla=='1') {
             frame_numbers(1,pio,sm);
+            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            printf("Apresentando a animação de ????\n\n");
+            
         }else if(tecla=='2') {
             frame_numbers(2,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
