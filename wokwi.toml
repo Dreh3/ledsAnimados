@@ -1,4 +1,4 @@
 [wokwi]
 version = 1
-firmware = 'build/matrizAnimada.uf2'
-elf = 'matrizAnimada.elf'
+firmware = 'build\matrizAnimada.uf2'
+elf = 'build\matrizAnimada.elf'
