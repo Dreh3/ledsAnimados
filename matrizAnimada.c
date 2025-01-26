@@ -11,7 +11,7 @@
 #include "pio_matrix.pio.h"
 
 #include"frame_2.h"
-#include "frame_flower.h"
+#include "frame_boat.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -157,7 +157,7 @@ int main()
             frame_2(pio,sm);
         }else if(tecla=='3'){
             printf("apresentando a animação de Ana Karolina Disigant");
-            frame_flower(pio, sm);
+            frame_boat(pio, sm);
         }else{
             printf("%c",tecla);
         }
