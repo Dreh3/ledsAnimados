@@ -164,7 +164,7 @@ int main()
             frame_numbers(1,pio,sm);
             printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            frame_1(pio, sm);
+            animacaoletraA(pio, sm);
         }
         else if(tecla=='2') {
             frame_numbers(2,pio,sm);
