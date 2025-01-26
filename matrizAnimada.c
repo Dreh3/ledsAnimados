@@ -15,6 +15,7 @@
 #include "frame_pulser.h"
 #include "frame_numbers.h"
 #include "frame_1.h"
+#include "frame_heart.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
