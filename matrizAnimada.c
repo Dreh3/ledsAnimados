@@ -157,7 +157,7 @@ int main()
             frame_2(pio,sm);
         }else if(tecla=='3'){
             printf("apresentando a animação de Ana Karolina Disigant");
-            frame_flower(pio, sm);
+            frame_boat(pio, sm);
         }else{
             printf("%c",tecla);
         }
