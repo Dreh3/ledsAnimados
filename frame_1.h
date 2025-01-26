@@ -90,7 +90,7 @@ void animacaoletraA(PIO pio, uint sm){
     //Definição de cores usadas na intensidade adequada para o simulador
     RGB_cod1 cinza = cor_parametro(128,128,128);
     RGB_cod1 branco = cor_parametro(255,255,255);
-    RGB_cod1 verde_opaco = cor_parametro(0,100,0); //antes 5
+    RGB_cod1 verde_opaco = cor_parametro(0,100,0);
     RGB_cod1 marrom = cor_parametro(150,75,0);
     RGB_cod1 marrom_claro = cor_parametro(63,38,0);
     RGB_cod1 azul_claro = cor_parametro(18,10,143);
