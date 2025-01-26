@@ -12,6 +12,8 @@
 
 #include"frame_2.h"
 #include "frame_boat.h"
+#include "frame_pulser.h"
+#include "frame_numbers.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -123,7 +125,7 @@ int main()
             tecla=keypad_leitura();
             sleep_ms(200);
         }
-        printf("Tecla %c está: ",tecla);
+        printf("Tecla %c pressionada!!!\n",tecla);
         if (tecla=='A') {
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
@@ -150,14 +152,52 @@ int main()
             printf("ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
-            printf("saindo do modo de execução e habilitando o modo de gravação\n");
+            printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
-        }else if(tecla=='2'){
-            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X\n");
+        }else if(tecla=='1') {
+            frame_numbers(1,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='2') {
+            frame_numbers(2,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Matheus Santos Souza (");
+            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X)\n\n");
             frame_2(pio,sm);
-        }else if(tecla=='3'){
-            printf("apresentando a animação de Ana Karolina Disigant");
+        }else if(tecla=='3') {
+            frame_numbers(3,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
             frame_boat(pio, sm);
+        }else if(tecla=='4') {
+            frame_numbers(4,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
+            frame_pulser(pio, sm);
+        }else if(tecla=='5'){
+            frame_numbers(5,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='6'){
+            frame_numbers(6,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='7'){
+            frame_numbers(7,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='8'){
+            frame_numbers(8,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='9'){
+            frame_numbers(9,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
+        }else if(tecla=='0'){
+            frame_numbers(0,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de ????\n\n");
         }else{
             printf("%c",tecla);
         }
