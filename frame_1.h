@@ -20,6 +20,7 @@ typedef struct {
     double red;
     double green;
     double blue;
+
 }Led_config1;
 
 typedef Led_config1 RGB_cod1;
@@ -29,6 +30,7 @@ typedef Led_config1 Matriz_leds_config1[5][5];
 
 //função para definição da intensidade de cores do led
 uint32_t matrixRGB(double b, double r, double g)
+
 {
   unsigned char R, G, B;
   R = r * 255;
@@ -36,6 +38,7 @@ uint32_t matrixRGB(double b, double r, double g)
   B = b * 255;
   return (G << 24) | (R << 16) | (B << 8);
 }
+
 
 void imprimir_desenho(Matriz_leds_config1 configuracao, PIO pio, uint sm){
     for (int contadorLinha = 4; contadorLinha >= 0; contadorLinha--){
@@ -72,7 +75,6 @@ RGB_cod1 cor_parametro (double red, double green, double blue){
 void animacaoletraA(PIO pio, uint sm){
 
     //Definição de cores usadas na intensidade adeuquada para a placa
-
         /*
         RGB_cod1 cinza = cor_parametro(5.25,5.25,5.25);
         RGB_cod1 branco = cor_parametro(6.2,6.2,6.375);
@@ -202,8 +204,5 @@ void animacaoletraA(PIO pio, uint sm){
     }
 
 };
-
-
-
 
 #endif
