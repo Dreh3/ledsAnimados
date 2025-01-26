@@ -160,11 +160,7 @@ void frame_wesley(PIO pio, uint sm) {
     // Exibe os quadros de forma sequencial
     for (int i = 0; i < 9; i++) {
         imprimir_frame_2(frames[i], pio, sm);
-<<<<<<< Updated upstream
-        sleep_ms(1000);  // Pausa entre cada quadro da animação
-=======
-        sleep_ms(250));  // Pausa entre cada quadro da animação
->>>>>>> Stashed changes
+        sleep_ms(250);  // Pausa entre cada quadro da animação
     }
 }
 

@@ -10,18 +10,12 @@
 //arquivo .pio
 #include "pio_matrix.pio.h"
 
-<<<<<<< Updated upstream
-#include"frame_wesley.h"
-
-=======
 #include"frame_2.h"
 #include "frame_boat.h"
 #include "frame_pulser.h"
 #include "frame_numbers.h"
 #include "frame_1.h"
 #include "frame_heart.h"
-#include "frame_wesley.h"
->>>>>>> Stashed changes
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -47,7 +41,6 @@ const uint button;
 #define INTENSIDADE_MEDIA 0.8
 #define INTENSIDADE_BAIXA 0.5
 #define INTENSIDADE_MINIMA 0.2
-
 
 
 //Função para inicializar pinos do teclado
@@ -100,7 +93,6 @@ char keypad_leitura(){
 }
 
 
-
 int main()
 {
     PIO pio = pio0; 
@@ -115,8 +107,16 @@ int main()
     init_teclado();
     stdio_init_all();
 
-    printf("Iniciando o controle dos LEDs\n");
-
+    printf("           CONTROLE DOS LEDs                                                ANIMAÇÕES PERSONALIZADAS \n");
+    printf("                         \n");
+    printf("A - Desliga todos os LEDs acesos;                                     0 - Luiz;\n");
+    printf("B - Liga todos os LEDs da cor azul;                                   1 - Andressa;\n");
+    printf("C - Liga todos os LEDs da cor vermelha;                               2 - Matheus;\n");
+    printf("D - Liga todos os LEDs da cor verde;                                  3 - Ana Karolina;\n");          
+    printf("# - Liga todos os LEDs da cor branca;                                 4 - Lucas;\n");    
+    printf("* - Sai do modo de execução e habilita o de gravação;                 5 - Wesley;\n");       
+    printf("                                                                      6 - Gabriel.\n");   
+               
     uint offset = pio_add_program(pio, &pio_matrix_program);
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
@@ -127,7 +127,7 @@ int main()
             tecla=keypad_leitura();
             sleep_ms(200);
         }
-        printf("tecla %c",tecla);
+        printf("Tecla %c pressionada!\n",tecla);
         if (tecla=='A') {
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
@@ -154,14 +154,8 @@ int main()
             printf("Ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
-            printf("Saindo do modo de execução e habilitando o modo de gravação\n");
+            printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
-<<<<<<< Updated upstream
-        }else if(tecla=='2'){
-            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X\n");
-            frame_wesley(pio,sm);
-        }else{
-=======
         }
         else if(tecla=='0'){
             frame_numbers(0,pio,sm);
@@ -206,7 +200,6 @@ int main()
             printf("Apresentando a animação de Gabriel Vitor...\n\n");
         }
         else{
->>>>>>> Stashed changes
             printf("%c",tecla);
         }
         tecla='\0';
