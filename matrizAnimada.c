@@ -10,8 +10,18 @@
 //arquivo .pio
 #include "pio_matrix.pio.h"
 
+<<<<<<< Updated upstream
 #include"frame_wesley.h"
 
+=======
+#include"frame_2.h"
+#include "frame_boat.h"
+#include "frame_pulser.h"
+#include "frame_numbers.h"
+#include "frame_1.h"
+#include "frame_heart.h"
+#include "frame_wesley.h"
+>>>>>>> Stashed changes
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -146,10 +156,57 @@ int main()
         else if (tecla=='*') {
             printf("Saindo do modo de execução e habilitando o modo de gravação\n");
             modo_gravacao();
+<<<<<<< Updated upstream
         }else if(tecla=='2'){
             printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X\n");
             frame_wesley(pio,sm);
         }else{
+=======
+        }
+        else if(tecla=='0'){
+            frame_numbers(0,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Luiz Rodrigo...\n\n");
+            frame_heart(pio,sm);
+        }
+        else if(tecla=='1') {
+            frame_numbers(1,pio,sm);
+            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            animacaoletraA(pio, sm);
+        }
+        else if(tecla=='2') {
+            frame_numbers(2,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Matheus Santos Souza (");
+            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X)\n\n");
+            frame_2(pio,sm);
+        }
+        else if(tecla=='3') {
+            frame_numbers(3,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
+            frame_boat(pio, sm);
+        }
+        else if(tecla=='4') {
+            frame_numbers(4,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
+            frame_pulser(pio, sm);
+        }
+        else if(tecla=='5'){
+            frame_numbers(5,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Wesley...\n\n");
+            frame_wesley(pio, sm)
+        }
+        else if(tecla=='6'){
+            frame_numbers(6,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Gabriel Vitor...\n\n");
+        }
+        else{
+>>>>>>> Stashed changes
             printf("%c",tecla);
         }
         tecla='\0';
