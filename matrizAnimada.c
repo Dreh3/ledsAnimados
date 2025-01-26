@@ -19,6 +19,7 @@
 #include "frame_wesley.h"
 
 
+
 #define NUM_PIXELS 25
 #define OUT_PIN 7
 
@@ -195,6 +196,7 @@ int main()
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Wesley...\n\n");
             frame_wesley(pio, sm)
+
         }
         else if(tecla=='6'){
             frame_numbers(6,pio,sm);
