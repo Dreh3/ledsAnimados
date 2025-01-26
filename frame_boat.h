@@ -1,5 +1,5 @@
 #ifndef FRAME_BOAT_H
-#define FRAME_BOAT_h
+#define FRAME_BOAT_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,7 +55,6 @@ void print_boat(Matriz_config configuracao, PIO pio, uint sm){
         } else {
             for (int contadorColuna = 4; contadorColuna >= 0; contadorColuna--){
                 uint32_t valor_cor_binario = rgb_matrix(
-
                     configuracao[contadorLinha][contadorColuna].blue,
                     configuracao[contadorLinha][contadorColuna].red,
                     configuracao[contadorLinha][contadorColuna].green
