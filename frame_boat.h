@@ -1,5 +1,5 @@
 #ifndef FRAME_BOAT_H
-#define FRAME_BOAT_H
+#define FRAME_BOAT_h
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -55,6 +55,7 @@ void print_boat(Matriz_config configuracao, PIO pio, uint sm){
         } else {
             for (int contadorColuna = 4; contadorColuna >= 0; contadorColuna--){
                 uint32_t valor_cor_binario = rgb_matrix(
+
                     configuracao[contadorLinha][contadorColuna].blue,
                     configuracao[contadorLinha][contadorColuna].red,
                     configuracao[contadorLinha][contadorColuna].green
@@ -65,7 +66,6 @@ void print_boat(Matriz_config configuracao, PIO pio, uint sm){
     }
 }
 
-// Função para definir as cores para a flor
 RGB RGB_parameter(int red, int green, int blue){
     RGB cor_customizada = {red/255.0, green/255.0, blue/255.0};
     return cor_customizada;
