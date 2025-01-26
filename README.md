@@ -19,7 +19,42 @@ __Para esta prática, os seguintes componentes e acessórios se fazem necessári
 
 __O código com a lógica adotada pelo grupo se encontra no presente reposítório e o resultado pode ser assistido no vídeo alocado neste link: [Aplicação GPIOs - animações em LED](https://www.youtube.com/watch?v=M-3o-tt8ANQ&t=3s).__
 
+## Instruções de Uso
 
-## INSTRUÇÕES DE USO DO PROGRAMA
+### 1. Clone o repositório
+Abra o terminal e execute o comando abaixo para clonar o repositório em sua máquina:
+```bash
+git clone https://github.com/Dreh3/ledsAnimados.git
+```
 
+### 2. Configure o ambiente de desenvolvimento
+Certifique-se de que o [SDK do Raspberry Pi Pico](https://github.com/raspberrypi/pico-sdk) esteja instalado e configurado corretamente no seu sistema.
 
+### 3. Compile o projeto
+Navegue até o diretório raiz do projeto e execute os comandos abaixo:
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+O arquivo `matrizAnimada.uf2` será gerado na pasta `build`.
+
+### 4. Carregue o programa no Raspberry Pi Pico
+1. Conecte o Raspberry Pi Pico ao seu computador enquanto mantém pressionado o botão **BOOTSEL**.
+2. O Pico será montado como um dispositivo de armazenamento USB.
+3. Copie o arquivo `matrizAnimada.uf2` para o dispositivo montado.
+4. O Pico reiniciará automaticamente e executará o programa.
+
+### 5. Conecte a matriz de LEDs
+Siga o diagrama de conexão fornecido no arquivo `diagram.json` para conectar corretamente a matriz de LEDs **WS2812** ao Raspberry Pi Pico.
+
+### 6. Execute o programa
+Após completar as etapas anteriores, o programa será executado no Raspberry Pi Pico, exibindo as animações implementadas na matriz de LEDs.
+
+## Observações
+
+- Certifique-se de usar cabos adequados para conexão e alimentação da matriz de LEDs.
+- Para personalizar as animações, modifique os parâmetros no código fonte antes de compilar.
+
+Para mais informações sobre o projeto, consulte a documentação completa no repositório.
