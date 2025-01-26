@@ -14,6 +14,7 @@
 #include "frame_boat.h"
 #include "frame_pulser.h"
 #include "frame_numbers.h"
+#include "frame_1.h"
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -156,9 +157,9 @@ int main()
             modo_gravacao();
         }else if(tecla=='1') {
             frame_numbers(1,pio,sm);
-            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            
+            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");
+            animacaoletraA(pio,sm);
         }else if(tecla=='2') {
             frame_numbers(2,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
