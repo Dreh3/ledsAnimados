@@ -263,7 +263,7 @@ int main()
             printf("Saindo do modo de execução e habilitando o modo de gravação\n");
             modo_gravacao();
         }else if(tecla=='0'){
-            printf(" R.M.C.F.C");
+            printf(" Animação Luiz");
             animacao_letras(pio,sm);
         }else{
             printf("%c",tecla);
