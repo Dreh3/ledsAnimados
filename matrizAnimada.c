@@ -198,11 +198,6 @@ int main()
             frame_wesley(pio, sm)
 
         }
-        else if(tecla=='6'){
-            frame_numbers(6,pio,sm);
-            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            printf("Apresentando a animação de Gabriel Vitor...\n\n");
-        }
         else{
             printf("%c",tecla);
         }
