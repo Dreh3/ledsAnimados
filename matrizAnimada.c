@@ -218,9 +218,9 @@ int main()
         else if(tecla=='1') {
             play_buzzer(BUZZER_PIN, RE, 500);
             frame_numbers(1,pio,sm,itnsty);
-            printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
+            printf("Apresentando a animação de Andressa Sousa...\nAnimação Árvore\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            animacaoletraA(pio, sm);
+            frame_arvore(pio, sm, itnsty);
         }
         else if(tecla=='2') {
             play_buzzer(BUZZER_PIN, MI, 500);
