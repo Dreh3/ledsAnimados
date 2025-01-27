@@ -251,7 +251,7 @@ int main()
                 controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             }
             printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
-            frame_pulser(pio, sm,0.1);
+            frame_pulser(pio, sm,itnsty==1);
         }
         else if(tecla=='5'){
             if(buffer != tecla) {
@@ -278,7 +278,7 @@ int main()
                 controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             }
             printf("Apresentando animação EXTRA! (Perseguidor de cores..)\n\n");
-            chaser_animation(pio, sm,0.1);
+            chaser_animation(pio, sm,itnsty==1);
         }
         else{
         }
