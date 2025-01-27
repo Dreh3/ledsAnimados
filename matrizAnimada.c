@@ -18,8 +18,10 @@
 #include "frame_1.h"
 #include "frame_hearth.h"
 #include "frame_wesley.h"
+#include "frame_color_chaser.h"
 
 
+#define BUZZER_PIN 21 //Define GPIO21
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -29,9 +31,6 @@ const uint button;
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
-
-// Definição da porta GPIO do BUZZER
-#define BUZZER_PIN 21
 
 //Definindo pinos das linhas e colunas do teclado matricial
 #define R1 9
@@ -72,9 +71,6 @@ void init_teclado(){
   gpio_pull_up(C2);
   gpio_pull_up(C3);
   gpio_pull_up(C4);
-  gpio_init(BUZZER_PIN);
-  gpio_set_dir(BUZZER_PIN, GPIO_OUT);
-  gpio_put(BUZZER_PIN, 0);
 }
 
 //Leitura do teclado
@@ -101,7 +97,6 @@ char keypad_leitura(){
   }
   return '\0';
 }
-
 
 // Frequências das notas musicais (em Hz)
 enum NotasMusicais {
@@ -132,11 +127,14 @@ void play_buzzer(uint pin, uint frequency, uint duration_ms) {
     pwm_set_gpio_level(pin, 0);
 }
 
+
 int main()
 {
     PIO pio = pio0; 
     bool ok;
     uint32_t cor;
+
+    float itnsty = 1;
 
     char tecla='\0';
 
@@ -145,6 +143,7 @@ int main()
 
     init_teclado();
     stdio_init_all();
+    uart_init(uart0, 115200);
 
     printf("           CONTROLE DOS LEDs                                                ANIMAÇÕES PERSONALIZADAS \n");
     printf("                         \n");
@@ -160,87 +159,112 @@ int main()
     uint sm = pio_claim_unused_sm(pio, true);
     pio_matrix_program_init(pio, sm, offset, OUT_PIN);
 
+    gpio_put(BUZZER, false);
 
     while (true) {
-        while(tecla=='\0'){
+        while(tecla=='\0') {
             tecla=keypad_leitura();
             sleep_ms(200);
+            if(tecla == '\0') {
+                itnsty = 0.05;
+                tecla = getchar_timeout_us(50);
+                if(tecla == PICO_ERROR_TIMEOUT) tecla = '\0';
+            } else {
+                itnsty = 1;
+            }
         }
-        printf("Tecla %c pressionada!\n",tecla);
+        if(('0' <= tecla && tecla <= '9') || tecla == 'A' || tecla == 'B' || tecla == 'C' || tecla == 'D' || tecla == '#') printf("Tecla %c pressionada!\n",tecla);
         if (tecla=='A') {
+            play_buzzer(BUZZER_PIN, DO, 500);
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
             printf("Desligando todos os LEDs\n");
         }
         else if (tecla=='B') {
-            cor = matrix_rgb(INTENSIDADE_ALTA, 0.0, 0.0); // Azul
+            play_buzzer(BUZZER_PIN, RE, 500);
+            cor = matrix_rgb(1*itnsty, 0.0, 0.0); // Azul
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor azul\n");
         }
         else if (tecla=='C') {
-            cor = matrix_rgb(0.0, INTENSIDADE_MEDIA, 0.0); // Vermelho
+            play_buzzer(BUZZER_PIN, MI, 500);
+            cor = matrix_rgb(0.0, 1*itnsty, 0.0); // Vermelho
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor vermelha\n");
         }
         else if (tecla=='D') {
-            cor = matrix_rgb(0.0, 0.0, INTENSIDADE_BAIXA); // Verde
+            play_buzzer(BUZZER_PIN, FA, 500);
+            cor = matrix_rgb(0.0, 0.0, 1*itnsty); // Verde
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor verde\n");
         }
         else if (tecla=='#') {
-            cor = matrix_rgb(INTENSIDADE_MINIMA, INTENSIDADE_MINIMA, INTENSIDADE_MINIMA); // Branco
+            play_buzzer(BUZZER_PIN, SOL, 500);
+            cor = matrix_rgb(1*itnsty, 1*itnsty, 1*itnsty); // Branco
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
+            play_buzzer(BUZZER_PIN, LA, 500);
             printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
         }
         else if(tecla=='0'){
             play_buzzer(BUZZER_PIN, DO, 500);
-            frame_numbers(0,pio,sm);
+            frame_numbers(0,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            printf("Apresentando a animação de Luiz Rodrigo...\n\n");
-            frame_hearth(pio,sm);
         }
         else if(tecla=='1') {
             play_buzzer(BUZZER_PIN, RE, 500);
-            frame_numbers(1,pio,sm);
+            frame_numbers(1,pio,sm,itnsty);
             printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             animacaoletraA(pio, sm);
         }
         else if(tecla=='2') {
             play_buzzer(BUZZER_PIN, MI, 500);
-            frame_numbers(2,pio,sm);
+            frame_numbers(2,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Matheus Santos Souza (");
             printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X)\n\n");
-            frame_2(pio,sm);
+            frame_2(pio,sm,itnsty);
         }
         else if(tecla=='3') {
             play_buzzer(BUZZER_PIN, FA, 500);
-            frame_numbers(3,pio,sm);
+            frame_numbers(3,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
-            frame_boat(pio, sm);
+            frame_boat(pio, sm,itnsty);
         }
         else if(tecla=='4') {
             play_buzzer(BUZZER_PIN, SOL, 500);
-            frame_numbers(4,pio,sm);
+            frame_numbers(4,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
-            frame_pulser(pio, sm);
+            frame_pulser(pio, sm,0.1);
         }
         else if(tecla=='5'){
             play_buzzer(BUZZER_PIN, LA, 500);
-            frame_numbers(5,pio,sm);
+            frame_numbers(5,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Wesley...\n\n");
             frame_wesley(pio, sm);
         }
+        else if(tecla=='6') {
+            play_buzzer(BUZZER_PIN, SI, 500);
+            frame_numbers(6,pio,sm,itnsty);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Luiz Rodrigo (Coração...)\n\n");
+            frame_hearth(pio,sm,itnsty);
+        }
+        else if(tecla=='7') {
+            play_buzzer(BUZZER_PIN, DO, 500);
+            frame_numbers(7,pio,sm,itnsty);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando animação EXTRA! (Perseguidor de cores..)\n\n");
+            chaser_animation(pio, sm,0.1);
+        }
         else{
-            printf("%c",tecla);
         }
         tecla='\0';
         sleep_ms(100); // Aguarda 100ms para evitar leituras repetidas
