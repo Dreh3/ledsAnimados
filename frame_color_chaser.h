@@ -82,8 +82,9 @@ void chaser_frame(Matriz_leds_config_6* frame,Matriz_leds_config_6* base_frame,M
     }
 }
 
-void chaser_animation(PIO pio, uint sm, float itnsty) {
-
+void chaser_animation(PIO pio, uint sm, bool isActive) {
+    float itnsty = isActive ? 1 : 0.1;
+    
     Matriz_leds_config_6 frame, base_frame;
     Matriz_leds_config_6 frames[24*3+4];
 
