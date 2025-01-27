@@ -13,23 +13,22 @@
 #include "pico/bootrom.h"
 
 
+#define NUM_PIXELS 25
 
 // Definição de tipo da estrutura que irá controlar a cor dos LED's
 typedef struct {
     double red;
     double green;
     double blue;
+}Led_config;
 
-}Led_config1;
-
-typedef Led_config1 RGB_cod1;
+typedef Led_config RGB_cod;
 
 // Definição de tipo da matriz de leds
-typedef Led_config1 Matriz_leds_config1[5][5];
+typedef Led_config Matriz_leds_config[5][5];
 
 //função para definição da intensidade de cores do led
-uint32_t matrixRGB(double b, double r, double g)
-
+uint32_t matrix_rgb(double b, double r, double g)
 {
   unsigned char R, G, B;
   R = r * 255;
@@ -38,8 +37,7 @@ uint32_t matrixRGB(double b, double r, double g)
   return (G << 24) | (R << 16) | (B << 8);
 }
 
-
-void imprimir_desenho(Matriz_leds_config1 configuracao, PIO pio, uint sm){
+void imprimir_desenho(Matriz_leds_config configuracao, PIO pio, uint sm){
     for (int contadorLinha = 4; contadorLinha >= 0; contadorLinha--){
         if(contadorLinha % 2){
             for (int contadorColuna = 0; contadorColuna < 5; contadorColuna ++){
@@ -65,8 +63,8 @@ void imprimir_desenho(Matriz_leds_config1 configuracao, PIO pio, uint sm){
     }
 }
 
-RGB_cod1 cor_parametro (double red, double green, double blue){
-    RGB_cod1 cor_customizada = {red/255.0,green/255.0,blue/255.0};
+RGB_cod obter_cor_por_parametro_RGB(int red, int green, int blue){
+    RGB_cod cor_customizada = {red/255.0,green/255.0,blue/255.0};
 
     return cor_customizada;
 }
@@ -76,23 +74,21 @@ void animacaoletraA(PIO pio, uint sm){
     //Definição de cores usadas na intensidade adequada para a placa
 
         /*
-        RGB_cod1 verde = cor_parametro(0,7,0);
-        RGB_cod1 marromClaro = cor_parametro(9.375,4.6875,0);
-        RGB_cod1 marrom = cor_parametro(4.6875,2.34375,0);
-        RGB_cod1 verde_claro = cor_parametro(0.0,2,0);
+        RGB_cod verde = obter_cor_por_parametro_RGB(0,7,0);
+        RGB_cod marromClaro = obter_cor_por_parametro_RGB(9.375,4.6875,0);
+        RGB_cod marrom = obter_cor_por_parametro_RGB(4.6875,2.34375,0);
+        RGB_cod verde_claro = obter_cor_por_parametro_RGB(0.0,2,0);
         */
 
     //Definição de cores usadas na intensidade adequada para o simulador
     
-    RGB_cod1 verde = cor_parametro(0.0,510,0.0);
-    RGB_cod1 marromClaro = cor_parametro(126,76,0);
-    RGB_cod1 marrom = cor_parametro(150,75,0);
-    RGB_cod1 verde_claro = cor_parametro(0,100,0);
+    RGB_cod verde = obter_cor_por_parametro_RGB(0.0,510,0.0);
+    RGB_cod marromClaro = obter_cor_por_parametro_RGB(126,76,0);
+    RGB_cod marrom = obter_cor_por_parametro_RGB(150,75,0);
+    RGB_cod verde_claro = obter_cor_por_parametro_RGB(0,100,0);
     
 
-    
-    //Matriz com todos os frames da animação em ordem - Animação é uma árvore subindo e intensificando de cor
-    Matriz_leds_config1 frames[] ={
+    Matriz_leds_config frames[] ={
         //frame 0 arvore subindo linha 1
         {{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}},{{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, verde_claro, verde_claro, verde_claro, {0.0, 0.0, 0.0}} },
         //frame 1 arvore subindo linha 2
@@ -119,10 +115,10 @@ void animacaoletraA(PIO pio, uint sm){
         {{{0.0, 0.0, 0.0}, verde, verde, verde, {0.0, 0.0, 0.0}}, {verde, verde, verde, verde, verde},{verde, verde, verde, verde, verde}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, marrom, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, marromClaro, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}},
         //frame 11
         {{{0.0, 0.0, 0.0}, verde, verde, verde, {0.0, 0.0, 0.0}}, {verde, verde, verde, verde, verde},{verde, verde, verde, verde, verde}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, marrom, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}, {{0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}, marrom, {0.0, 0.0, 0.0}, {0.0, 0.0, 0.0}}}    
+        
     };
-    
 
-    //For para apresentar todos os 12 frames em ordem com intervalo de 250ms (4fps)
+    //For para apresentar todos os 35 frames em ordem com intervalo de 250ms (4fps)
     for(int i=0;i<12;i++){
             //imprimir os frames 
             imprimir_desenho(frames[i],pio,sm);
@@ -130,5 +126,8 @@ void animacaoletraA(PIO pio, uint sm){
     };
 
 };
+
+
+
 
 #endif
