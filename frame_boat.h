@@ -167,9 +167,11 @@ void frame_boat(PIO pio, uint sm) {
 
     };
 
-    for (int i = 0; i < 10; i++) {
-        print_boat(boat_frames[i], pio, sm);
-        sleep_ms(250); 
+    for (int j = 0; j < 2; j++) {
+        for (int i = 0; i < 10; i++) {
+            print_boat(boat_frames[i], pio, sm);
+            sleep_ms(100); 
+        }
     }
 }
 
