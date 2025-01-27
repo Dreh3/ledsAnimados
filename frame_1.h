@@ -38,13 +38,6 @@ uint32_t matrixrgb1(double b, double r, double g)
   return (G << 24) | (R << 16) | (B << 8);
 }
 
-void controlar_leds(PIO pio, uint sm, uint32_t cor)
-{
-  for (int16_t i = 0; i < NUM_PIXELS; i++) {
-    pio_sm_put_blocking(pio, sm, cor);
-  }
-}
-
 void imprimir_desenho(Matriz_leds_config1 configuracao, PIO pio, uint sm){
     for (int contadorLinha = 4; contadorLinha >= 0; contadorLinha--){
         if(contadorLinha % 2){
@@ -86,7 +79,7 @@ void frame_arvore(PIO pio, uint sm, float intsty){
     RGB_cod1 marrom = cor_parametro(150,75,0);
     RGB_cod1 verde_claro = cor_parametro(0,100,0);
 
-    if (intsty == 1){
+    if (intsty != 1){
         //Definição de cores usadas na intensidade adequada para a placa
         verde = cor_parametro(0,7,0);
         marromClaro = cor_parametro(9.375,4.6875,0);

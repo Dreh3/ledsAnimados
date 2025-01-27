@@ -92,7 +92,8 @@ void pulser_framing(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame
     framer(frame,base_frame,1,0,0,row[4],col[4],false,pio,sm,true,100,itnsty);
 }
 
-void frame_pulser(PIO pio, uint sm, float itnsty) {
+void frame_pulser(PIO pio, uint sm, bool isActive) {
+    float itnsty = isActive ? 1 : 0.1;
     Matriz_leds_config_3 frame, base_frame;
 
     memcpy(base_frame, default_frame, sizeof(Matriz_leds_config_3));
