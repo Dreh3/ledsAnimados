@@ -64,6 +64,23 @@ void init_teclado(){
   gpio_pull_up(C4);
 }
 
+//modo de gravação
+void modo_gravacao()
+{
+    reset_usb_boot(0,0); 
+}
+
+//função para definição da intensidade de cores do led
+uint32_t matrix_rgb(double b, double r, double g)
+
+{
+  unsigned char R, G, B;
+  R = r * 255;
+  G = g * 255;
+  B = b * 255;
+  return (G << 24) | (R << 16) | (B << 8);
+}
+
 //Leitura do teclado
 char keypad_leitura(){
   char teclado [4][4] = {
@@ -97,6 +114,8 @@ int main()
     bool ok;
     uint32_t cor;
 
+    float itnsty = 1;
+
     char tecla='\0';
 
     //frequência de clock para 128 MHz
@@ -113,9 +132,17 @@ int main()
 
 
     while (true) {
+
         while(tecla=='\0'){
             tecla=keypad_leitura();
             sleep_ms(200);
+            if(tecla == '\0') {
+                itnsty = 0.05;
+                tecla = getchar_timeout_us(50);
+                if(tecla == PICO_ERROR_TIMEOUT) tecla = '\0';
+            } else {
+                itnsty = 1;
+            }
         }
         printf("tecla %c",tecla);
         if (tecla=='A') {
@@ -146,9 +173,9 @@ int main()
         else if (tecla=='*') {
             printf("Saindo do modo de execução e habilitando o modo de gravação\n");
             modo_gravacao();
-        }else if(tecla=='2'){
-            printf("Ponto -> Quadrado -> Quadrado Maior -> Ponto -> X -> Quadrado X\n");
-            frame_2(pio,sm);
+        }else if(tecla=='1'){
+            printf("Animação Árvore\n");
+            frame_arvore(pio,sm,itnsty);
         }else{
             printf("%c",tecla);
         }
