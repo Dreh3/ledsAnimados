@@ -17,6 +17,7 @@
 #include "frame_1.h"
 #include "frame_hearth.h"
 #include "frame_wesley.h"
+#include "frame_color_chaser.h"
 
 
 
@@ -163,8 +164,6 @@ int main()
         else if(tecla=='0'){
             frame_numbers(0,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            printf("Apresentando a animação de Luiz Rodrigo...\n\n");
-            frame_hearth(pio,sm);
         }
         else if(tecla=='1') {
             frame_numbers(1,pio,sm);
@@ -196,6 +195,18 @@ int main()
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Wesley...\n\n");
             frame_wesley(pio, sm);
+        }
+        else if(tecla=='6') {
+            frame_numbers(6,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando a animação de Luiz Rodrigo (Coração...)\n\n");
+            frame_hearth(pio,sm);
+        }
+        else if(tecla=='7') {
+            frame_numbers(7,pio,sm);
+            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            printf("Apresentando animação EXTRA! (Perseguidor de cores..)\n\n");
+            chaser_animation(pio, sm);
         }
         else{
             printf("%c",tecla);
