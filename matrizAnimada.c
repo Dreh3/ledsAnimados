@@ -19,6 +19,7 @@
 #include "frame_hearth.h"
 #include "frame_wesley.h"
 #include "frame_color_chaser.h"
+#include "frame_8.h"
 
 
 
@@ -279,6 +280,14 @@ int main()
             }
             printf("Apresentando animação EXTRA! (Perseguidor de cores..)\n\n");
             chaser_animation(pio, sm,itnsty==1);
+        } else if(tecla=='8') {
+            if(buffer != tecla) {
+                play_buzzer(BUZZER_PIN, SOL, 500);
+                frame_numbers(8,pio,sm,itnsty);
+                controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
+            }
+            printf("Apresentando animação EXTRA! (Âncora..)\n\n");
+            frame_ancora(pio,sm,itnsty);
         }
         else{
         }
