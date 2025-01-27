@@ -179,31 +179,31 @@ int main()
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, DO, 500);}
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
-            printf("Desligando todos os LEDs\n");
+            printf("Desligando todos os LEDs\n\n");
         }
         else if (tecla=='B') {
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, RE, 500);}
             cor = matrix_rgb(1*itnsty, 0.0, 0.0); // Azul
             controlar_leds(pio, sm, cor);
-            printf("Ligando todos os LEDs na cor azul\n");
+            printf("Ligando todos os LEDs na cor azul\n\n");
         }
         else if (tecla=='C') {
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, MI, 500);}
             cor = matrix_rgb(0.0, 1*itnsty, 0.0); // Vermelho
             controlar_leds(pio, sm, cor);
-            printf("Ligando todos os LEDs na cor vermelha\n");
+            printf("Ligando todos os LEDs na cor vermelha\n\n");
         }
         else if (tecla=='D') {
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, FA, 500);}
             cor = matrix_rgb(0.0, 0.0, 1*itnsty); // Verde
             controlar_leds(pio, sm, cor);
-            printf("Ligando todos os LEDs na cor verde\n");
+            printf("Ligando todos os LEDs na cor verde\n\n");
         }
         else if (tecla=='#') {
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, SOL, 500);}
             cor = matrix_rgb(1*itnsty, 1*itnsty, 1*itnsty); // Branco
             controlar_leds(pio, sm, cor);
-            printf("Ligando todos os LEDs na cor branca\n");
+            printf("Ligando todos os LEDs na cor branca\n\n");
         }
         else if (tecla=='*') {
             if(buffer != tecla) {play_buzzer(BUZZER_PIN, LA, 500);}
