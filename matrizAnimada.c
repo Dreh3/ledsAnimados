@@ -15,8 +15,9 @@
 #include "frame_pulser.h"
 #include "frame_numbers.h"
 #include "frame_1.h"
-#include "frame_heart.h"
+#include "frame_hearth.h"
 #include "frame_wesley.h"
+
 
 
 #define NUM_PIXELS 25
@@ -163,7 +164,7 @@ int main()
             frame_numbers(0,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Luiz Rodrigo...\n\n");
-            frame_heart(pio,sm);
+            frame_hearth(pio,sm);
         }
         else if(tecla=='1') {
             frame_numbers(1,pio,sm);
@@ -194,12 +195,7 @@ int main()
             frame_numbers(5,pio,sm);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Wesley...\n\n");
-            frame_wesley(pio, sm)
-        }
-        else if(tecla=='6'){
-            frame_numbers(6,pio,sm);
-            controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
-            printf("Apresentando a animação de Gabriel Vitor...\n\n");
+            frame_wesley(pio, sm);
         }
         else{
             printf("%c",tecla);
