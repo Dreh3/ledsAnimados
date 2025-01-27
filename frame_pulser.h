@@ -85,10 +85,10 @@ void framer(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame,float r
 }
 
 void pulser_framing(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame, int row [5], int col[5],PIO pio, uint sm) {
-    framer(frame,base_frame,0.0625,0,0,row[0],col[0],true,pio,sm,false,0);
-    framer(frame,base_frame,0.125,0,0,row[1],col[1],false,pio,sm,false,0);
-    framer(frame,base_frame,0.25,0,0,row[2],col[2],false,pio,sm,false,0);
-    framer(frame,base_frame,0.5,0,0,row[3],col[3],false,pio,sm,false,0);
+    framer(frame,base_frame,0.03125,0,0,row[0],col[0],true,pio,sm,false,0);
+    framer(frame,base_frame,0.0625,0,0,row[1],col[1],false,pio,sm,false,0);
+    framer(frame,base_frame,0.125,0,0,row[2],col[2],false,pio,sm,false,0);
+    framer(frame,base_frame,0.25,0,0,row[3],col[3],false,pio,sm,false,0);
     framer(frame,base_frame,1,0,0,row[4],col[4],false,pio,sm,true,100);
 }
 
