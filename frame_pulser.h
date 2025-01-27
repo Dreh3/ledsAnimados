@@ -172,14 +172,14 @@ void frame_pulser(PIO pio, uint sm) {
     base_frame[0][0].red = 1;
 
     //3 frames, 72+1+4+3 = 80 frames  (10 frames a cada 1 seg = 8 seg)
-    framer(&frame,&base_frame,0.0625,0,0,3,0,true,pio,sm,false,0);
-    framer(&frame,&base_frame,0.125,0,0,2,0,false,pio,sm,false,0);
-    framer(&frame,&base_frame,0.25,0,0,1,0,false,pio,sm,false,0);
-    framer(&frame,&base_frame,0.5,0,0,0,0,true,pio,sm,true,100);
-
-    framer(&frame,&base_frame,0.0625,0,0,2,0,true,pio,sm,false,0);
+    framer(&frame,&base_frame,0.03125,0,0,3,0,true,pio,sm,false,0);
+    framer(&frame,&base_frame,0.0625,0,0,2,0,false,pio,sm,false,0);
     framer(&frame,&base_frame,0.125,0,0,1,0,false,pio,sm,false,0);
     framer(&frame,&base_frame,0.25,0,0,0,0,true,pio,sm,true,100);
+
+    framer(&frame,&base_frame,0.03125,0,0,2,0,true,pio,sm,false,0);
+    framer(&frame,&base_frame,0.625,0,0,1,0,false,pio,sm,false,0);
+    framer(&frame,&base_frame,0.125,0,0,0,0,true,pio,sm,true,100);
 
     framer(&frame,&base_frame,0,0,0,1,0,true,pio,sm,false,0);
     framer(&frame,&base_frame,0,0,0,0,0,true,pio,sm,true,100);
