@@ -73,4 +73,5 @@ endif()
 # Criar arquivos de saída como mapa/bin/hex, etc.
 pico_add_extra_outputs(matrizAnimada)
 
-# Adicionar URL via pico_set_program_url
+pico_enable_stdio_uart(matrizAnimada 1)
+pico_enable_stdio_usb(matrizAnimada 1)

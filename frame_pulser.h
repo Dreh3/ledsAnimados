@@ -75,24 +75,24 @@ void configurar_matriz(Matriz_leds_config_3* frame,float r, float g, float b, in
     (*frame)[row][col].green = g;
 }
 
-void framer(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame,float r, float g, float b, int row, int col, bool clear,PIO pio,uint sm,bool print,int sleep) {
+void framer(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame,float r, float g, float b, int row, int col, bool clear,PIO pio,uint sm,bool print,int sleep,float itnsty) {
     if(clear) memcpy(*frame, *base_frame, sizeof(Matriz_leds_config_3));
-    configurar_matriz(frame,r,g,b,row,col);
+    configurar_matriz(frame,r*itnsty,g*itnsty,b*itnsty,row,col);
     if(print) {
         print_pulser(*frame, pio, sm);
         sleep_ms(sleep);    
     }
 }
 
-void pulser_framing(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame, int row [5], int col[5],PIO pio, uint sm) {
-    framer(frame,base_frame,0.0625,0,0,row[0],col[0],true,pio,sm,false,0);
-    framer(frame,base_frame,0.125,0,0,row[1],col[1],false,pio,sm,false,0);
-    framer(frame,base_frame,0.25,0,0,row[2],col[2],false,pio,sm,false,0);
-    framer(frame,base_frame,0.5,0,0,row[3],col[3],false,pio,sm,false,0);
-    framer(frame,base_frame,1,0,0,row[4],col[4],false,pio,sm,true,100);
+void pulser_framing(Matriz_leds_config_3* frame,Matriz_leds_config_3* base_frame, int row [5], int col[5],PIO pio, uint sm,float itnsty) {
+    framer(frame,base_frame,0.03125,0,0,row[0],col[0],true,pio,sm,false,0,itnsty);
+    framer(frame,base_frame,0.0625,0,0,row[1],col[1],false,pio,sm,false,0,itnsty);
+    framer(frame,base_frame,0.125,0,0,row[2],col[2],false,pio,sm,false,0,itnsty);
+    framer(frame,base_frame,0.25,0,0,row[3],col[3],false,pio,sm,false,0,itnsty);
+    framer(frame,base_frame,1,0,0,row[4],col[4],false,pio,sm,true,100,itnsty);
 }
 
-void frame_pulser(PIO pio, uint sm) {
+void frame_pulser(PIO pio, uint sm, float itnsty) {
     Matriz_leds_config_3 frame, base_frame;
 
     memcpy(base_frame, default_frame, sizeof(Matriz_leds_config_3));
@@ -101,85 +101,88 @@ void frame_pulser(PIO pio, uint sm) {
     float weight = 1.0;
 
     for(int i = 0;i < 40;i++) { //40 frames (10 frames a cada 1 seg = 4 seg)
-        if(!(i%2)) framer(&frame,&base_frame,0.025*weight,0.025*weight,0.025*weight,0,0,true,pio,sm,true,100);
-        else framer(&frame,&base_frame,0.025*weight,0,0,0,0,true,pio,sm,true,100);
+        if(!(i%2)) framer(&frame,&base_frame,0.025*weight,0.025*weight,0.025*weight,0,0,true,pio,sm,true,100,itnsty);
+        else framer(&frame,&base_frame,0.025*weight,0,0,0,0,true,pio,sm,true,100,itnsty);
         weight=weight+1.0;
     }
 
     base_frame[0][0].red = 0;
 
     for(int i = 0; i < 4; i++) { //16 frames
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,4,4,4,4},(int []){0,1,2,3,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){4,4,4,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,0,0,0,0},(int []){4,3,2,1,0},pio,sm);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,4,4,4,4},(int []){0,1,2,3,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){4,4,4,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,0,0,0,0},(int []){4,3,2,1,0},pio,sm,itnsty);
     }
 
     for(int i = 0; i < 4; i++) { //16 frames
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){0,1,2,3,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){4,4,4,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){4,3,2,1,0},pio,sm);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){0,1,2,3,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){4,4,4,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){4,3,2,1,0},pio,sm,itnsty);
     }
 
     //2 frames
-    pulser_framing(&frame,&base_frame,(int []){0,1,2,2,2},(int []){0,0,0,1,2},pio,sm);
-    pulser_framing(&frame,&base_frame,(int []){2,2,2,3,4},(int []){2,3,4,3,2},pio,sm);
+    pulser_framing(&frame,&base_frame,(int []){0,1,2,2,2},(int []){0,0,0,1,2},pio,sm,itnsty);
+    pulser_framing(&frame,&base_frame,(int []){2,2,2,3,4},(int []){2,3,4,3,2},pio,sm,itnsty);
 
     for(int i = 0; i < 4; i++) { //16 frames, 16+16+16+2 = 50 frames  (10 frames a cada 1 seg = 5 seg)
-        pulser_framing(&frame,&base_frame,(int []){2,3,4,3,2},(int []){4,3,2,1,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){2,1,0,1,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,1,0,1,2},(int []){0,1,2,3,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){2,3,4,3,2},pio,sm);
+        pulser_framing(&frame,&base_frame,(int []){2,3,4,3,2},(int []){4,3,2,1,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){2,1,0,1,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,1,0,1,2},(int []){0,1,2,3,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){2,3,4,3,2},pio,sm,itnsty);
     }
 
     //1 frame
-    pulser_framing(&frame,&base_frame,(int []){2,3,4,4,4},(int []){4,3,2,1,0},pio,sm);
+    pulser_framing(&frame,&base_frame,(int []){2,3,4,4,4},(int []){4,3,2,1,0},pio,sm,itnsty);
 
     for(int i = 0; i < 2; i++) { //72 frames
-        pulser_framing(&frame,&base_frame,(int []){4,4,4,3,3},(int []){2,1,0,0,1},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,3,3,3,3},(int []){0,0,1,2,3},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){3,3,3,3,2},(int []){1,2,3,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){3,3,2,2,2},(int []){3,4,4,3,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,2,2,2,2},(int []){4,3,2,1,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,2,2,1,1},(int []){2,1,0,0,1},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,1,1,1,1},(int []){0,0,1,2,3},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){1,1,1,1,0},(int []){1,2,3,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){1,1,0,0,0},(int []){3,4,4,3,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,0,0,0,0},(int []){4,3,2,1,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,0,0,1,2},(int []){2,1,0,0,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,3},(int []){0,0,0,1,1},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){0,1,1,1,1},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){3,2,1,0,0},(int []){1,1,1,1,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){1,0,0,1,2},(int []){1,1,2,2,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){2,2,2,2,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,3},(int []){2,2,2,3,3},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){2,3,3,3,3},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){3,2,1,0,0},(int []){3,3,3,3,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){1,0,0,1,2},(int []){3,3,4,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){4,4,4,4,4},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,4},(int []){4,4,4,3,2},pio,sm);
-        pulser_framing(&frame,&base_frame,(int []){4,4,4,4,4},(int []){4,3,2,1,0},pio,sm);
+        pulser_framing(&frame,&base_frame,(int []){4,4,4,3,3},(int []){2,1,0,0,1},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,3,3,3,3},(int []){0,0,1,2,3},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){3,3,3,3,2},(int []){1,2,3,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){3,3,2,2,2},(int []){3,4,4,3,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,2,2,2,2},(int []){4,3,2,1,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,2,2,1,1},(int []){2,1,0,0,1},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,1,1,1,1},(int []){0,0,1,2,3},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){1,1,1,1,0},(int []){1,2,3,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){1,1,0,0,0},(int []){3,4,4,3,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,0,0,0,0},(int []){4,3,2,1,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,0,0,1,2},(int []){2,1,0,0,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){0,0,0,0,0},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,3},(int []){0,0,0,1,1},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){0,1,1,1,1},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){3,2,1,0,0},(int []){1,1,1,1,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){1,0,0,1,2},(int []){1,1,2,2,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){2,2,2,2,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,3},(int []){2,2,2,3,3},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){2,3,3,3,3},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){3,2,1,0,0},(int []){3,3,3,3,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){1,0,0,1,2},(int []){3,3,4,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){0,1,2,3,4},(int []){4,4,4,4,4},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){2,3,4,4,4},(int []){4,4,4,3,2},pio,sm,itnsty);
+        pulser_framing(&frame,&base_frame,(int []){4,4,4,4,4},(int []){4,3,2,1,0},pio,sm,itnsty);
     }
 
     //4 frames
-    pulser_framing(&frame,&base_frame,(int []){4,4,4,4,3},(int []){3,2,1,0,0},pio,sm);
-    pulser_framing(&frame,&base_frame,(int []){4,4,4,3,2},(int []){2,1,0,0,0},pio,sm);
-    pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){1,0,0,0,0},pio,sm);
-    pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){0,0,0,0,0},pio,sm);
+    pulser_framing(&frame,&base_frame,(int []){4,4,4,4,3},(int []){3,2,1,0,0},pio,sm,itnsty);
+    pulser_framing(&frame,&base_frame,(int []){4,4,4,3,2},(int []){2,1,0,0,0},pio,sm,itnsty);
+    pulser_framing(&frame,&base_frame,(int []){4,4,3,2,1},(int []){1,0,0,0,0},pio,sm,itnsty);
+    pulser_framing(&frame,&base_frame,(int []){4,3,2,1,0},(int []){0,0,0,0,0},pio,sm,itnsty);
 
     base_frame[0][0].red = 1;
 
     //3 frames, 72+1+4+3 = 80 frames  (10 frames a cada 1 seg = 8 seg)
-    framer(&frame,&base_frame,0.0625,0,0,3,0,true,pio,sm,false,0);
-    framer(&frame,&base_frame,0.125,0,0,2,0,false,pio,sm,false,0);
-    framer(&frame,&base_frame,0.25,0,0,1,0,false,pio,sm,true,100);
+    framer(&frame,&base_frame,0.03125,0,0,3,0,true,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0.0625,0,0,2,0,false,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0.125,0,0,1,0,false,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0.25,0,0,0,0,true,pio,sm,true,100,itnsty);
 
-    framer(&frame,&base_frame,0.0625,0,0,2,0,true,pio,sm,false,0);
-    framer(&frame,&base_frame,0.125,0,0,1,0,false,pio,sm,true,100);
+    framer(&frame,&base_frame,0.03125,0,0,2,0,true,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0.625,0,0,1,0,false,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0.125,0,0,0,0,true,pio,sm,true,100,itnsty);
 
-    framer(&frame,&base_frame,0,0,0,1,0,true,pio,sm,true,100);
+    framer(&frame,&base_frame,0,0,0,1,0,true,pio,sm,false,0,itnsty);
+    framer(&frame,&base_frame,0,0,0,0,0,true,pio,sm,true,100,itnsty);
 
     //Total: 17 segundos = 170 frames
 }
