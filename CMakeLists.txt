@@ -63,7 +63,7 @@ add_executable(matrizAnimada
 pico_generate_pio_header(${CMAKE_PROJECT_NAME} ${CMAKE_CURRENT_LIST_DIR}/pio_matrix.pio)
 
 # Vincular as dependências comuns
-target_link_libraries(matrizAnimada pico_stdlib)
+target_link_libraries(matrizAnimada pico_stdlib hardware_pwm)
 
 # Suporte para Wi-Fi, se necessário
 if (PICO_CYW43_SUPPORTED)

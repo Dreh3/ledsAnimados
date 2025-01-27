@@ -6,6 +6,7 @@
 #include "hardware/clocks.h"
 #include "hardware/adc.h"
 #include "pico/bootrom.h"
+#include "hardware/pwm.h"
 
 //arquivo .pio
 #include "pio_matrix.pio.h"
@@ -20,7 +21,8 @@
 #include "frame_color_chaser.h"
 
 
-#define BUZZER 21 //Define GPIO21
+
+#define BUZZER_PIN 21 //Define GPIO21
 
 #define NUM_PIXELS 25
 #define OUT_PIN 7
@@ -97,6 +99,35 @@ char keypad_leitura(){
   return '\0';
 }
 
+// Frequências das notas musicais (em Hz)
+enum NotasMusicais {
+    DO = 2640, // Dó
+    RE = 2970, // Ré
+    MI = 3300, // Mi
+    FA = 3520, // Fá
+    SOL = 3960, // Sol
+    LA = 4400, // Lá
+    SI = 4950  // Si
+};
+
+// Configura o PWM no pino do buzzer com uma frequência especificada
+void set_buzzer_frequency(uint pin, uint frequency) {
+    uint slice_num = pwm_gpio_to_slice_num(pin);
+    gpio_set_function(pin, GPIO_FUNC_PWM);
+    pwm_config config = pwm_get_default_config();
+    pwm_config_set_clkdiv(&config, clock_get_hz(clk_sys) / (frequency * 4096));
+    pwm_init(slice_num, &config, true);
+    pwm_set_gpio_level(pin, 0);
+}
+
+// Função para tocar o buzzer por um tempo especificado (em milissegundos)
+void play_buzzer(uint pin, uint frequency, uint duration_ms) {
+    set_buzzer_frequency(pin, frequency);
+    pwm_set_gpio_level(pin, 32768);
+    sleep_ms(duration_ms);
+    pwm_set_gpio_level(pin, 0);
+}
+
 
 int main()
 {
@@ -145,45 +176,54 @@ int main()
         }
         if(('0' <= tecla && tecla <= '9') || tecla == 'A' || tecla == 'B' || tecla == 'C' || tecla == 'D' || tecla == '#') printf("Tecla %c pressionada!\n",tecla);
         if (tecla=='A') {
+            play_buzzer(BUZZER_PIN, DO, 500);
             cor = matrix_rgb(0.0, 0.0, 0.0);
             controlar_leds(pio, sm, cor);
             printf("Desligando todos os LEDs\n");
         }
         else if (tecla=='B') {
+            play_buzzer(BUZZER_PIN, RE, 500);
             cor = matrix_rgb(1*itnsty, 0.0, 0.0); // Azul
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor azul\n");
         }
         else if (tecla=='C') {
+            play_buzzer(BUZZER_PIN, MI, 500);
             cor = matrix_rgb(0.0, 1*itnsty, 0.0); // Vermelho
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor vermelha\n");
         }
         else if (tecla=='D') {
+            play_buzzer(BUZZER_PIN, FA, 500);
             cor = matrix_rgb(0.0, 0.0, 1*itnsty); // Verde
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor verde\n");
         }
         else if (tecla=='#') {
+            play_buzzer(BUZZER_PIN, SOL, 500);
             cor = matrix_rgb(1*itnsty, 1*itnsty, 1*itnsty); // Branco
             controlar_leds(pio, sm, cor);
             printf("Ligando todos os LEDs na cor branca\n");
         }
         else if (tecla=='*') {
+            play_buzzer(BUZZER_PIN, LA, 500);
             printf("Saindo do modo de execução e habilitando o modo de gravação\n\n");
             modo_gravacao();
         }
         else if(tecla=='0'){
+            play_buzzer(BUZZER_PIN, DO, 500);
             frame_numbers(0,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
         }
         else if(tecla=='1') {
+            play_buzzer(BUZZER_PIN, RE, 500);
             frame_numbers(1,pio,sm,itnsty);
             printf("Apresentando a animação de Andressa Sousa...\nAnimaçôes com a letra A\n");  
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             animacaoletraA(pio, sm);
         }
         else if(tecla=='2') {
+            play_buzzer(BUZZER_PIN, MI, 500);
             frame_numbers(2,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Matheus Santos Souza (");
@@ -191,30 +231,35 @@ int main()
             frame_2(pio,sm,itnsty);
         }
         else if(tecla=='3') {
+            play_buzzer(BUZZER_PIN, FA, 500);
             frame_numbers(3,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Ana Karolina Disigant (Barco...)\n\n");
             frame_boat(pio, sm,itnsty);
         }
         else if(tecla=='4') {
+            play_buzzer(BUZZER_PIN, SOL, 500);
             frame_numbers(4,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Lucas Carneiro de A. Lima (Pulser...)\n\n");
             frame_pulser(pio, sm,0.1);
         }
         else if(tecla=='5'){
+            play_buzzer(BUZZER_PIN, LA, 500);
             frame_numbers(5,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Wesley...\n\n");
             frame_wesley(pio, sm);
         }
         else if(tecla=='6') {
+            play_buzzer(BUZZER_PIN, SI, 500);
             frame_numbers(6,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando a animação de Luiz Rodrigo (Coração...)\n\n");
             frame_hearth(pio,sm,itnsty);
         }
         else if(tecla=='7') {
+            play_buzzer(BUZZER_PIN, DO, 500);
             frame_numbers(7,pio,sm,itnsty);
             controlar_leds(pio, sm, matrix_rgb(0.0, 0.0, 0.0));
             printf("Apresentando animação EXTRA! (Perseguidor de cores..)\n\n");
