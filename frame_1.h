@@ -69,23 +69,22 @@ RGB_cod obter_cor_por_parametro_RGB(int red, int green, int blue){
     return cor_customizada;
 }
 
-void animacaoletraA(PIO pio, uint sm){
-
-    //Definição de cores usadas na intensidade adequada para a placa
-
-        /*
-        RGB_cod verde = obter_cor_por_parametro_RGB(0,7,0);
-        RGB_cod marromClaro = obter_cor_por_parametro_RGB(9.375,4.6875,0);
-        RGB_cod marrom = obter_cor_por_parametro_RGB(4.6875,2.34375,0);
-        RGB_cod verde_claro = obter_cor_por_parametro_RGB(0.0,2,0);
-        */
+void frame_arvore(PIO pio, uint sm, float itnsty){
 
     //Definição de cores usadas na intensidade adequada para o simulador
     
-    RGB_cod verde = obter_cor_por_parametro_RGB(0.0,510,0.0);
-    RGB_cod marromClaro = obter_cor_por_parametro_RGB(126,76,0);
-    RGB_cod marrom = obter_cor_por_parametro_RGB(150,75,0);
-    RGB_cod verde_claro = obter_cor_por_parametro_RGB(0,100,0);
+    RGB_cod1 verde = cor_parametro(0.0,510,0.0);
+    RGB_cod1 marromClaro = cor_parametro(126,76,0);
+    RGB_cod1 marrom = cor_parametro(150,75,0);
+    RGB_cod1 verde_claro = cor_parametro(0,100,0);
+
+    if (intsty == 1){
+        //Definição de cores usadas na intensidade adequada para a placa
+        verde = cor_parametro(0,7,0);
+        marromClaro = cor_parametro(9.375,4.6875,0);
+        marrom = cor_parametro(4.6875,2.34375,0);
+        verde_claro = cor_parametro(0.0,2,0);
+    };
     
 
     Matriz_leds_config frames[] ={
