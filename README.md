@@ -57,4 +57,24 @@ Após completar as etapas anteriores, o programa será executado no Raspberry Pi
 - Certifique-se de usar cabos adequados para conexão e alimentação da matriz de LEDs.
 - Para personalizar as animações, modifique os parâmetros no código fonte antes de compilar.
 
-Para mais informações sobre o projeto, consulte a documentação completa no repositório.
+# Funções dos botões
+
+| COMANDO                            | DESCRIÇÃO                                     |
+|:----------------------------------:|:---------------------------------------------:|
+| A                                  | Desliga todos os LEDs acesos                  |
+| B                                  | Liga todos os LEDs da cor azul                |
+| C                                  | Liga todos os LEDs da cor vermelha            |
+| D                                  | Liga todos os LEDs da cor verde               |
+| #                                  | Liga todos os LEDs da cor branca              |
+| *                                  | Sai do modo de execução e habilita o de gravação |
+| 1                                  | Andressa                                      |
+| 2                                  | Matheus                                       |
+| 3                                  | Ana Karolina                                  |
+| 4                                  | Lucas                                         |
+| 5                                  | Wesley                                        |
+| 6                                  | Luiz                                          |
+| 7                                  | Animação extra                                |
+| 8                                  | Animação extra                                |
+
+Vale ressaltar que em todos os comandos há ativação do buzzer.
+
