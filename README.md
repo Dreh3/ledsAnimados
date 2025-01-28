@@ -17,7 +17,7 @@ __Para esta prática, os seguintes componentes e acessórios se fazem necessári
 3) Matriz de LEDs Coloridos (LED-RGB 5x5 WS2812).
 4) Buzzer Passivo Eletromagnético MLT-8530 SMD 3.6V
 
-__O código com a lógica adotada pelo grupo se encontra no presente reposítório e o resultado pode ser assistido no vídeo alocado neste link: [Aplicação GPIOs - animações em LED](https://www.youtube.com/watch?v=M-3o-tt8ANQ&t=3s).__
+__O código com a lógica adotada pelo grupo se encontra no presente reposítório e o resultado pode ser assistido no vídeo alocado neste link: [Aplicação GPIOs - animações em LED]([https://www.youtube.com/watch?v=UjJnq5CxnIs]).__
 
 ## Instruções de Uso
 
