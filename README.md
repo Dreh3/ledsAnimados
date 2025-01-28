@@ -67,12 +67,12 @@ Após completar as etapas anteriores, o programa será executado no Raspberry Pi
 | D                                  | Liga todos os LEDs da cor verde               |
 | #                                  | Liga todos os LEDs da cor branca              |
 | *                                  | Sai do modo de execução e habilita o de gravação |
-| 1                                  | Andressa                                      |
-| 2                                  | Matheus                                       |
-| 3                                  | Ana Karolina                                  |
-| 4                                  | Lucas                                         |
-| 5                                  | Wesley                                        |
-| 6                                  | Luiz                                          |
+| 1                                  | Animação de Andressa                          |
+| 2                                  | Animação de Matheus                           |
+| 3                                  | Animação de Ana Karolina                      |
+| 4                                  | Animação de Lucas                             |
+| 5                                  | Animação de Wesley                            |
+| 6                                  | Animação de Luiz                              |
 | 7                                  | Animação extra                                |
 | 8                                  | Animação extra                                |
 
