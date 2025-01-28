@@ -76,5 +76,5 @@ Após completar as etapas anteriores, o programa será executado no Raspberry Pi
 | 7                                  | Animação extra                                |
 | 8                                  | Animação extra                                |
 
-Vale ressaltar que em todos os comandos há ativação do buzzer.
+Vale ressaltar que há ativação do buzzer em todos os comandos.
 
